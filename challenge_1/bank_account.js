@@ -15,8 +15,10 @@ var saldo = 0
 */
 function tambahSaldo() {
     let value = window.prompt(getBalanceText() + "insert your value to increase balance")
-    saldo += parseInt(value)
-    showMessage("increase", value)
+    if (checkInputIsNumber(value)) {
+        saldo += parseInt(value)
+        showMessage("increase", value)
+    }
 }
 
 /*
@@ -27,12 +29,23 @@ function tambahSaldo() {
 */
 function kurangiSaldo() {
     let value = window.prompt(getBalanceText() + "insert your value to decrease balance")
-    if (value > saldo) {
-        alert("sorry your balance now Rp." + saldo + " less than Rp." + value)
-    } else {
-        saldo -= parseInt(value)
-        showMessage("decrease", value)
+    if (checkInputIsNumber(value)) {
+        if (value > saldo) {
+            alert("sorry your balance now Rp." + saldo + " less than Rp." + value)
+        } else {
+            saldo -= parseInt(value)
+            showMessage("decrease", value)
+        }
     }
+}
+
+function checkInputIsNumber(value) {
+    numberValue = parseInt(value)
+    if (isNaN(numberValue)) {
+        alert("please input number")
+        return false
+    }
+    return true
 }
 
 function getBalanceText() {
@@ -58,11 +71,12 @@ if (userName != "" && userName != null) {
                 kurangiSaldo()
                 break
             case 99:
-                let isContinue = window.prompt(`Hallo ${userName} \n${getBalanceText()} \n Are your sure want to exit \ntype y to continue \ntype n to back`)
+                let isContinue = window.prompt(`Hallo ${userName} \n${getBalanceText()} \nAre your sure want to exit \ntype y to continue \ntype n to back`)
                 if (isContinue == "y") {
                     alert(`thank you ${userName}, your account will reset`)
                     saldo = 0
                     valid = false
+                    userName = ""
                     break
                 } else {
                     continue
